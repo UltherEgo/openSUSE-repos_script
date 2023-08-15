@@ -22,28 +22,33 @@ RED=$(tput setaf 1)
 GREEN=$(tput setaf 2)
 RESET=$(tput sgr0)
 
+# Distro
+LEAP="openSUSE-repos-Leap"
+TUMBLE="openSUSE-repos-Tumbleweed"
+MICRO="openSUSE-repos-MicroOS"
+LEAPMICRO="openSUSE-repos-LeapMicro"
 
 # Function for adding CDN repositories
 add_cdn_repos() {
     case $1 in
         "Leap")
-             zypper in openSUSE-repos-Leap
+             zypper in $LEAP
             ;;
         "Tumbleweed")
-             zypper in openSUSE-repos-Tumbleweed
+             zypper in $TUMBLE
             ;;
         "MicroOS")
-             zypper in openSUSE-repos-MicroOS
+             zypper in $MICRO
             ;;
         "LeapMicro")
-             zypper in openSUSE-repos-LeapMicro
+             zypper in $LEAPMICRO
             ;;
     esac
 
     # Removing older repositories
-    zypper rr --all || { echo "Error removing older repositories."; exit 1; }
+    zypper rr --all || { echo "${RED}Error removing older repositories.${RESET}"; exit 1; }
     # Refreshing repositories
-    zypper ref -s || { echo "Error refreshing repositories."; exit 1; }
+    zypper ref -s || { echo "${RED}Error refreshing repositories.${RESET}"; exit 1; }
 
     # Displaying the list of repositories
     zypper lr -d
@@ -53,26 +58,26 @@ add_cdn_repos() {
 restore_original_repos() {
     case $1 in
         "Leap")
-             zypper rm openSUSE-repos-Leap
+             zypper rm $LEAP
             ;;
         "Tumbleweed")
-             zypper rm openSUSE-repos-Tumbleweed
+             zypper rm $TUMBLE
             ;;
         "MicroOS")
-             zypper rm openSUSE-repos-MicroOS
+             zypper rm $MICRO
             ;;
         "LeapMicro")
-             zypper rm openSUSE-repos-LeapMicro
+             zypper rm $LEAPMICRO
             ;;
     esac
 
     # Restoring original repositories from backup
     for file in /etc/zypp/repos.d/*.rpmsave; do
-         mv "$file" "$(echo $file | sed -e 's/\.rpmsave$//')" || { echo "Error restoring $file."; exit 1; }
+         mv "$file" "$(echo $file | sed -e 's/\.rpmsave$//')" || { echo "${RED}Error restoring $file.${RESET}"; exit 1; }
     done
 
     # Refreshing repositories
-    zypper ref -s || { echo "Error refreshing repositories."; exit 1; }
+    zypper ref -s || { echo "${RED}Error refreshing repositories.${RESET}"; exit 1; }
 
     # Displaying the list of repositories
     zypper lr -d
@@ -146,7 +151,7 @@ read -p "$multi_line_prompt" choice
 
 # Validate user choice
 if ! [[ "$choice" =~ ^[1-5]$ ]]; then
-    echo "Invalid choice."
+    echo "${RED}Invalid choice.${RESET}"
     exit 1
 fi
 
