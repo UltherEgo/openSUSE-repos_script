@@ -105,7 +105,7 @@ cleanup() {
 
 # Checking for root privileges
 if [[ $EUID -ne 0 ]]; then
-    echo "${RED}This script must be run with root privileges.${RESET}"
+    echo "${RED}This script must be run with sudo privileges.${RESET}"
     exit 1
 fi
 
