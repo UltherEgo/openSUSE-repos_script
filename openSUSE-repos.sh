@@ -45,8 +45,6 @@ add_cdn_repos() {
             ;;
     esac
 
-    # Removing older repositories
-    zypper rr --all || { echo "${RED}Error removing older repositories.${RESET}"; exit 1; }
     # Refreshing repositories
     zypper ref -s || { echo "${RED}Error refreshing repositories.${RESET}"; exit 1; }
     # Displaying the list of repositories
