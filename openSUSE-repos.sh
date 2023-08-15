@@ -3,7 +3,7 @@
 ###############################################################################################################
 # CDN openSUSE Repositories Management Script
 #
-# Script Name:      cdn_repo.sh
+# Script Name:      openSUSE-repos.sh
 # Date:             Aug 15, 2023
 # Author:           UltherEgo
 # Description:      This script allows users to manage openSUSE repositories by adding CDN repositories,
